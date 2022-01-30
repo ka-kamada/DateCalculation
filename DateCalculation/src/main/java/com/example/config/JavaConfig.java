@@ -11,5 +11,4 @@ public class JavaConfig {
 	public ModelMapper modelMapper() {
 		return new ModelMapper();
 	}
-	// テストプッシュ用
 }
