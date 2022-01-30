@@ -3,11 +3,15 @@ package com.example.controller;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import com.example.form.GroupOrder;
 import com.example.form.RegisterFormulaForm;
 import com.example.model.Formula;
 import com.example.service.DateCalculationService;
@@ -24,14 +28,20 @@ public class FormulaRegisterController {
 
 	// 登録画面表示
 	@GetMapping("/register")
-	public String getRegister(@ModelAttribute RegisterFormulaForm form) {
+	public String getRegister(Model model, @ModelAttribute RegisterFormulaForm form) {
 
 		return "formula/register";
 	}
 
 	// 登録処理 ⇒ 完了画面へのリダイレクト
-	@PostMapping("/insert")
-	public String postRegister(@ModelAttribute RegisterFormulaForm form) {
+	@PostMapping("/register")
+	public String postRegister(Model model, @ModelAttribute @Validated(GroupOrder.class) RegisterFormulaForm form,
+			BindingResult bindingResult) {
+
+		// 入力チェック結果
+		if (bindingResult.hasErrors()) {
+			return getRegister(model, form);
+		}
 
 		// 型変換（ResisterForulaForm ⇒ Formula）をして登録処理
 		Formula formula = modelMapper.map(form, Formula.class);

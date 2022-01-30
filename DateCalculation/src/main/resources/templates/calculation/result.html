@@ -13,7 +13,7 @@
 </head>
 <body>
 	<div class="header border-bottom">
-		<h1 class="h2">計算結果</h1>
+		<h1 class="h2" th:text="#{calculation.result.title}"></h1>
 		<span th:text="'基準日:' + ${reference}"></span>
 	</div>
 	<!-- 一覧表示 -->
@@ -23,11 +23,11 @@
 			<thead class="thead-light">
 				<tr>
 					<th class="th-1">No.</th>
-					<th class="th-2">計算式名</th>
-					<th class="th-2">計算結果</th>
-					<th class="th-1">加減値（年）</th>
-					<th class="th-1">加減値（月）</th>
-					<th class="th-1">加減値（日）</th>
+					<th class="th-2" th:text="#{formulaName}"></th>
+					<th class="th-2" th:text="#{calculationResult}"></th>
+					<th class="th-1" th:text="#{year}"></th>
+					<th class="th-1" th:text="#{month}"></th>
+					<th class="th-1" th:text="#{day}"></th>
 					<th class="th-1"></th>
 					<th class="th-1"></th>
 				</tr>
