@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8"></meta>
+<meta name="viewport"
+	content="width=device-width,initial-scale=1,shrink-to-fit=no">
+<!-- CSS読込 -->
+<link rel="stylesheet"
+	th:href="@{/webjars/bootstrap/css/bootstrap.min.css}">
+<link rel="stylesheet" th:href="@{/css/register.css}">
+<!-- JS読込 -->
+<script th:src="@{webjars/jquery/jquery.min.js}" defer></script>
+<script th:src="@{webjars/bootstrap/js/bootstrap.min.js}" defer></script>
+<title>計算式登録</title>
+</head>
+<body class="bg-light">
+	<form id="register-form" method="post"
+		action="/date-calculation/formula/insert" class="form-register" th:object="${registerFormulaForm}">
+		<h1 class="text-center">計算式登録</h1>
+		<div class="form-group">
+			<label for="formulaName">計算式名</label> <input type="text"
+				class="form-control" th:field="*{formulaName}"/>
+		</div>
+		<div class="form-group">
+			<label for="year">加減値（年）</label> <input type="text"
+				class="form-control" th:field="*{year}"/>
+		</div>
+		<div class="form-group">
+			<label for="month">加減値（月）</label> <input type="text"
+				class="form-control" th:field="*{month}"/>
+		</div>
+		<div class="form-group">
+			<label for="day">加減値（日）</label> <input type="text"
+				class="form-control" th:field="*{day}"/>
+		</div>
+		
+		<input type="submit" value="登録" class="btn btn-primary w-100 mt-3" />
+		<a th:href="@{/date-calculation/index.html}">トップに戻る</a>
+	</form>
+		
+</body>
+</html>
