@@ -1,52 +1,51 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org"
+  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" 
+  layout:decorate="~{layout/layout}">
 <head>
 <title>計算式編集</title>
 <!-- CSS読込 -->
-<link rel="stylesheet"
-	th:href="@{/webjars/bootstrap/css/bootstrap.min.css}">
 <link rel="stylesheet" th:href="@{/css/edit.css}">
-<!-- JS読込 -->
-<script th:src="@{webjars/jquery/jquery.min.js}" defer></script>
-<script th:src="@{webjars/bootstrap/js/bootstrap.min.js}" defer></script>
 </head>
 <body>
-	<div class="header border-bottom">
-		<h1 class="h2">計算式編集</h1>
-	</div>
-	<form id="update-form" method="post"
-		th:action="@{/date-calculation/formula/updateOne}" class="form-signup"
-		th:object="${formula}">
-		<input type="hidden" th:field="*{formulaId}" />
-		<!-- 計算式詳細情報 -->
-		<table class="table table-striped table-bordered table-hover">
-			<tbody>
-				<tr>
-					<th>計算式名</th>
-					<td><input type="text" class="form-control"
-						th:field="*{formulaName}" /></td>
-				</tr>
-				<tr>
-					<th>加減値（年）</th>
-					<td><input type="text" class="form-control" th:field="*{year}" /></td>
-				</tr>
-				<tr>
-					<th>加減値（月）</th>
-					<td><input type="text" class="form-control"
-						th:field="*{month}" /></td>
-				</tr>
-				<tr>
-					<th>加減値（日）</th>
-					<td><input type="text" class="form-control" th:field="*{day}" /></td>
-				</tr>
-			</tbody>
-		</table>
-		<!-- ボタンエリア -->
-		<div class="text-center">
-			<!-- 更新ボタン -->
-			<button class="btn btn-primary" type="submit">更新</button>
-			<a th:href="@{/date-calculation/index.html}">トップに戻る</a>
+	<div layout:fragment="content">
+		<div class="header border-bottom">
+			<h1 class="h2">計算式編集</h1>
 		</div>
-	</form>
+		<form id="update-form" method="post"
+			th:action="@{/date-calculation/formula/updateOne}"
+			class="form-signup" th:object="${formula}">
+			<input type="hidden" th:field="*{formulaId}" />
+			<!-- 計算式詳細情報 -->
+			<table class="table table-striped table-bordered table-hover">
+				<tbody>
+					<tr>
+						<th>計算式名</th>
+						<td><input type="text" class="form-control"
+							th:field="*{formulaName}" /></td>
+					</tr>
+					<tr>
+						<th>加減値（年）</th>
+						<td><input type="text" class="form-control"
+							th:field="*{year}" /></td>
+					</tr>
+					<tr>
+						<th>加減値（月）</th>
+						<td><input type="text" class="form-control"
+							th:field="*{month}" /></td>
+					</tr>
+					<tr>
+						<th>加減値（日）</th>
+						<td><input type="text" class="form-control" th:field="*{day}" /></td>
+					</tr>
+				</tbody>
+			</table>
+			<!-- ボタンエリア -->
+			<div class="text-center">
+				<!-- 更新ボタン -->
+				<button class="btn btn-primary" type="submit">更新実行</button>
+			</div>
+		</form>
+	</div>
 </body>
 </html>

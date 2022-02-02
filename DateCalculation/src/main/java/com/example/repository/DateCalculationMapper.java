@@ -8,7 +8,7 @@ import org.apache.ibatis.annotations.Param;
 import com.example.model.Formula;
 
 @Mapper
-public interface DateCalculationRepository {
+public interface DateCalculationMapper {
 
 
 	/** 計算式取得 */

@@ -7,7 +7,7 @@
 <!-- CSS読込 -->
 <link rel="stylesheet"
 	th:href="@{/webjars/bootstrap/css/bootstrap.min.css}">
-<link rel="stylesheet" th:href="@{/css/top.css}">
+<link rel="stylesheet" th:href="@{/css/index.css}">
 <!-- JS読込 -->
 <script th:src="@{webjars/jquery/jquery.min.js}" defer></script>
 <script th:src="@{webjars/bootstrap/js/bootstrap.min.js}" defer></script>
@@ -15,10 +15,12 @@
 </head>
 <body class="bg-light">
 	<div class="text-center">
-		<form method="post" th:action="@{/date-calculation/index.html}" class="form-top" th:object="${referenceDateForm}">
+		<form method="post" th:action="@{/date-calculation/index.html}"
+			class="form-top" th:object="${referenceDateForm}">
 			<h5>計算基準日を入力してください</h5>
 			<div class="form-top">
-				<input type="text" class="form-control" placeholder="YYYYMMDD" th:field="*{referenceDate}" th:errorclass="is-invalid"/>
+				<input type="text" class="form-control" placeholder="YYYYMMDD"
+					th:field="*{referenceDate}" th:errorclass="is-invalid" />
 				<div class="invalid-feedback" th:errors="*{referenceDate}"></div>
 			</div>
 			<input type="submit" value="計算実行" class="btn btn-primary" />

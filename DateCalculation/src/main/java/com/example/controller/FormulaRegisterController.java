@@ -37,7 +37,7 @@ public class FormulaRegisterController {
 	public String postRegister(@ModelAttribute @Validated(GroupOrder.class) RegisterFormulaForm form,
 			BindingResult bindingResult) {
 
-		// 入力チェック結果
+		// 入力チェック
 		if (bindingResult.hasErrors()) {
 			return getRegister(form);
 		}
