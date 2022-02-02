@@ -8,12 +8,15 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 
+import com.example.form.ReferenceDateForm;
 import com.example.model.Formula;
 import com.example.service.DateCalculationService;
 
@@ -26,16 +29,22 @@ public class DateCalculationController {
 
 	// トップ画面表示
 	@GetMapping("/index.html")
-	public String getTop() {
+	public String getTop(@ModelAttribute ReferenceDateForm form) {
 		return "calculation/index";
 	}
 
 	// ここから検索処理
 	// 入力値を受け取りそのまま検索結果画面へリダイレクト
-	@PostMapping("/result")
-	public String postResult(@RequestParam("referenceDate") String reference) {
+	@PostMapping("/index.html")
+	public String postResult(@ModelAttribute @Validated ReferenceDateForm form,
+			BindingResult bindingResult) {
 
-		return "redirect:/date-calculation/result/" + reference;
+		// 入力チェック結果
+		if (bindingResult.hasErrors()) {
+			return getTop(form);
+		}
+
+		return "redirect:/date-calculation/result/" + form.getReferenceDate();
 	}
 
 	// 入力値をもとに検索＆計算結果画面表示

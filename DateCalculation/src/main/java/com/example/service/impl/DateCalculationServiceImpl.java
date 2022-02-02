@@ -9,14 +9,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.example.model.Formula;
-import com.example.repository.DateCalculationRepository;
+import com.example.repository.DateCalculationMapper;
 import com.example.service.DateCalculationService;
 
 @Service
 public class DateCalculationServiceImpl implements DateCalculationService {
 
 	@Autowired
-	private DateCalculationRepository mapper;
+	private DateCalculationMapper mapper;
 
 	/** 計算式取得＆計算 */
 	@Override
