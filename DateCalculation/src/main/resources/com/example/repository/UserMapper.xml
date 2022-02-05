@@ -6,18 +6,28 @@
 
 <!-- ユーザー登録 -->
 	<insert id="setUser">
-    insert into user(
+    insert into m_user(
         user_id
       , password
       , user_name
+      , role
     )
     values (
         #{userId}
       , #{password}
       , #{userName}
+      , #{role}
     )
   </insert>
-
-
+  
+  <!-- ログインユーザー情報取得 -->
+  <select id="findLoginUser" resultType="com.example.model.MUser">
+    select 
+      * 
+    from 
+      m_user 
+    where 
+      user_id = #{userId}
+  </select>
 
 </mapper>
