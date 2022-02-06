@@ -1,4 +1,5 @@
 /* ユーザーテーブル初期データ登録 */
+/* 初期登録ユーザーのパスワードは「password」です */
 INSERT INTO m_user (
     user_id
   , password
