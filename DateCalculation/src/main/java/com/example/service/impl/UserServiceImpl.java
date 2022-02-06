@@ -19,7 +19,7 @@ public class UserServiceImpl implements UserService {
 
 	/** ユーザー登録 */
 	@Override
-	public void setUser(MUser user) {
+	public void signup(MUser user) {
 
 		user.setRole("ROLE_GENERAL"); // ロール
 
@@ -27,14 +27,14 @@ public class UserServiceImpl implements UserService {
 		String rawPassword = user.getPassword();
 		user.setPassword(encoder.encode(rawPassword));
 
-		mapper.setUser(user);
+		mapper.signup(user);
 
 	}
 
 	/** ログインユーザー情報取得 */
 	@Override
 	public MUser getLoginUser(String userId) {
-		return mapper.findLoginUser(userId);
+		return mapper.getLoginUser(userId);
 	}
 
 }

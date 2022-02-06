@@ -16,7 +16,7 @@ import com.example.model.Formula;
 import com.example.service.DateCalculationService;
 
 @Controller
-@RequestMapping("/date-calculation/formula")
+@RequestMapping("/calculation/formula")
 public class FormulaRegisterController {
 
 	@Autowired
@@ -25,35 +25,28 @@ public class FormulaRegisterController {
 	@Autowired
 	private ModelMapper modelMapper;
 
-	// 登録画面表示
+	// 計算式登録画面表示
 	@GetMapping("/register")
-	public String getRegister(@ModelAttribute RegisterFormulaForm form) {
+	public String loadRegister(@ModelAttribute RegisterFormulaForm form) {
 
 		return "formula/register";
 	}
 
-	// 登録処理 ⇒ 完了画面へのリダイレクト
+	// 登録処理 ⇒ 検索画面表示へのリダイレクト
 	@PostMapping("/register")
-	public String postRegister(@ModelAttribute @Validated(GroupOrder.class) RegisterFormulaForm form,
+	public String executeRegister(@ModelAttribute @Validated(GroupOrder.class) RegisterFormulaForm form,
 			BindingResult bindingResult) {
 
 		// 入力チェック
 		if (bindingResult.hasErrors()) {
-			return getRegister(form);
+			return loadRegister(form);
 		}
 
 		// 型変換（ResisterForulaForm ⇒ Formula）をして登録処理
 		Formula formula = modelMapper.map(form, Formula.class);
-		dateCalculationService.setFormula(formula);
+		dateCalculationService.registerFormula(formula);
 
-		return "redirect:/date-calculation/formula/register/complete/";
-	}
-
-	// 登録完了画面表示
-	@GetMapping("/register/complete/")
-	public String getRegisterComplete() {
-
-		return "formula/registerComplete";
+		return "redirect:/calculation/search/";
 	}
 
 }

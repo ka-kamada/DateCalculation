@@ -11,7 +11,7 @@ public interface DateCalculationService {
 	public List<Formula> getFormulas(Date referenceDate);
 
 	/** 計算式登録 */
-	public void setFormula(Formula formula);
+	public void registerFormula(Formula formula);
 
 	/** 計算式削除 */
 	public void deleteFormula(int formulaId);
@@ -20,6 +20,6 @@ public interface DateCalculationService {
 	public Formula getFormulaOne(int formulaId);
 
 	/** 更新処理 */
-	public void updateFormulaOne(int formulaId, String formulaName, int year, int month, int day);
+	public void updateFormula(int formulaId, String formulaName, int year, int month, int day);
 
 }

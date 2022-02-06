@@ -3,7 +3,7 @@
   xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" 
   layout:decorate="~{layout/layout}">
 <head>
-<title>計算結果</title>
+<title th:text="#{calculation.result.title}"></title>
 <!-- 個別CSS読込 -->
 <link rel="stylesheet" th:href="@{/css/result.css}">
 </head>
@@ -38,18 +38,18 @@
 						<td th:text="${item.month}"></td>
 						<td th:text="${item.day}"></td>
 						<td>
-							<form th:action="@{/date-calculation/formula/detail}"
+							<form th:action="@{/calculation/formula/detail}"
 								method="post">
 								<input type="submit" class="btn btn-outline-primary"
-									name="update" value="編集" /> <input type="hidden" name="id"
+									name="update" value="更新" /> <input type="hidden" name="formulaId"
 									th:value="${item.formulaId}">
 							</form>
 						</td>
 						<td>
-							<form th:action="@{/date-calculation/formula/detail}"
+							<form th:action="@{/calculation/formula/detail}"
 								method="post">
 								<input type="submit" class="btn btn-outline-danger"
-									name="delete" value="削除" /> <input type="hidden" name="id"
+									name="delete" value="削除" /> <input type="hidden" name="formulaId"
 									th:value="${item.formulaId}">
 							</form>
 						</td>

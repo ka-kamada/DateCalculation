@@ -5,7 +5,7 @@
 <mapper namespace="com.example.repository.UserMapper">
 
 <!-- ユーザー登録 -->
-	<insert id="setUser">
+	<insert id="signup">
     insert into m_user(
         user_id
       , password
@@ -21,7 +21,7 @@
   </insert>
   
   <!-- ログインユーザー情報取得 -->
-  <select id="findLoginUser" resultType="com.example.model.MUser">
+  <select id="getLoginUser" resultType="com.example.model.MUser">
     select 
       * 
     from 

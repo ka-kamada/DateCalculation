@@ -11,9 +11,9 @@
 	</select>
 	
 <!-- 計算式登録 -->
-	<insert id="setFormula">
+	<insert id="registerFormula">
     insert into formula(
-        formulaName
+        formula_name
       , year
       , month
       , day
@@ -31,24 +31,22 @@
     delete from
       formula
     where
-      formulaId = #{formulaId}
+      formula_id = #{formulaId}
   </delete>
  
 <!-- 更新前の計算式取得 -->
 	<select id="getFormulaOne" resultType="com.example.model.Formula">
-		select * from formula where formulaId = #{formulaId}
+		select * from formula where formula_id = #{formulaId}
 	</select>
 	
 <!-- 計算式更新 -->
-	<update id="updateFormulaOne">
+	<update id="updateFormula">
     update formula set
-        formulaName = #{formulaName}
+        formula_name = #{formulaName}
       , year = #{year}
       , month = #{month}
       , day = #{day}
     where
-    	formulaId = #{formulaId}
+    	formula_id = #{formulaId}
   </update>
-	
-
 </mapper>

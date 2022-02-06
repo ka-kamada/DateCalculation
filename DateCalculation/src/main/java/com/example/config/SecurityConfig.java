@@ -11,6 +11,7 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 @EnableWebSecurity
 @Configuration
@@ -30,7 +31,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
 		// セキュリティを適用しない
 		web.ignoring().antMatchers("/webjars/**").antMatchers("/css/**").antMatchers("/js/**");
-		// .antMatchers("/h2-console/**");
 	}
 
 	/** セキュリティの各種設定 */
@@ -48,14 +48,13 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		.failureUrl("/login?error")// ログイン失敗時の遷移先
 		.usernameParameter("userId")// ログインページのユーザーID
 		.passwordParameter("password")// ログインページのパスワード
-		.defaultSuccessUrl("/date-calculation/index.html", true);// 成功後の遷移先
+		.defaultSuccessUrl("/calculation/search", true);// 成功後の遷移先
 
 		// ログアウト処理
-		// http.logout().logoutRequestMatcher(new
-		// AntPathRequestMatcher("/logout")).logoutUrl("/logout")
-		// .logoutSuccessUrl("/login?logout");
+		http.logout().logoutRequestMatcher(new AntPathRequestMatcher("/logout")).logoutUrl("/logout")
+		.logoutSuccessUrl("/login?logout");
 
-		// CSRF対策を無効に設定(一時的）
+		// CSRF対策を無効に設定（一時的）
 		http.csrf().disable();
 	}
 
@@ -64,14 +63,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	protected void configure(AuthenticationManagerBuilder auth) throws Exception {
 
 		PasswordEncoder encoder = passwordEncoder();
-
-		// インメモリ認証
-
-		/**
-		 * auth.inMemoryAuthentication().withUser("user") // userを追加
-		 * .password(encoder.encode("user")).roles("GENERAL").and().withUser("admin") //
-		 * adminを追加 .password(encoder.encode("admin")).roles("ADMIN");
-		 */
 
 		// ユーザーデータ認証
 		auth.userDetailsService(userDetailsService).passwordEncoder(encoder);

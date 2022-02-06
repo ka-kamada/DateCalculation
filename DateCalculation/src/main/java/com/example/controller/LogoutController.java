@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 public class LogoutController {
 
 	@PostMapping("/logout")
-	public String postLogout() {
+	public String logout() {
 		return "redirect:/login";
 	}
 

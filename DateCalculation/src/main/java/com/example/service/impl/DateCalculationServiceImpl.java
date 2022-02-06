@@ -54,8 +54,8 @@ public class DateCalculationServiceImpl implements DateCalculationService {
 
 	/** 計算式登録 */
 	@Override
-	public void setFormula(Formula formula) {
-		mapper.setFormula(formula);
+	public void registerFormula(Formula formula) {
+		mapper.registerFormula(formula);
 	}
 
 	/** 計算式削除 */
@@ -76,9 +76,9 @@ public class DateCalculationServiceImpl implements DateCalculationService {
 
 	/** 更新処理 */
 	@Override
-	public void updateFormulaOne(int formulaId, String formulaName, int year, int month, int day) {
+	public void updateFormula(int formulaId, String formulaName, int year, int month, int day) {
 
-		mapper.updateFormulaOne(formulaId, formulaName, year, month, day);
+		mapper.updateFormula(formulaId, formulaName, year, month, day);
 
 	}
 

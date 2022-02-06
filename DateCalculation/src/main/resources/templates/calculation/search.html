@@ -7,15 +7,15 @@
 <meta name="viewport"
 	content="width=device-width,initial-scale=1,shrink-to-fit=no">
 <!-- CSS読込 -->
-<link rel="stylesheet" th:href="@{/css/index.css}">
-<title>Top</title>
+<link rel="stylesheet" th:href="@{/css/search.css}">
+<title th:text="#{calculation.search.title}"></title>
 </head>
 <body class="bg-white">
 	<div layout:fragment="content">
 		<div class="text-center">
-			<form method="post" th:action="@{/date-calculation/index.html}"
+			<form method="post" th:action="@{/calculation/search}"
 				class="form-top" th:object="${referenceDateForm}">
-				<h5>計算基準日を入力してください</h5>
+				<p><font size="5">計算基準日を入力してください</font></p>
 				<div class="form-top">
 					<input type="text" class="form-control" placeholder="YYYYMMDD"
 						th:field="*{referenceDate}" th:errorclass="is-invalid" />
@@ -23,7 +23,6 @@
 				</div>
 				<input type="submit" value="計算実行" class="btn btn-primary" />
 			</form>
-			<a th:href="@{/date-calculation/formula/register}">計算式を登録する</a>
 		</div>
 	</div>
 </body>

@@ -15,7 +15,7 @@ public interface DateCalculationMapper {
 	public List<Formula> getFormulas();
 
 	/** 計算式登録 */
-	public void setFormula(Formula formula);
+	public void registerFormula(Formula formula);
 
 	/** 計算式削除 */
 	public void deleteFormula(int formulaId);
@@ -24,7 +24,7 @@ public interface DateCalculationMapper {
 	public Formula getFormulaOne(int formulaId);
 
 	/** 更新処理 */
-	public void updateFormulaOne(@Param("formulaId") int formulaId, @Param("formulaName") String formulaName,
+	public void updateFormula(@Param("formulaId") int formulaId, @Param("formulaName") String formulaName,
 			@Param("year") int year, @Param("month") int month, @Param("day") int day);
 
 }

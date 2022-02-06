@@ -8,9 +8,9 @@ import com.example.model.MUser;
 public interface UserMapper {
 
 	/** ユーザー登録 */
-	public void setUser(MUser user);
+	public void signup(MUser user);
 
 	/** ログインユーザー取得 */
-	public MUser findLoginUser(String userId);
+	public MUser getLoginUser(String userId);
 
 }

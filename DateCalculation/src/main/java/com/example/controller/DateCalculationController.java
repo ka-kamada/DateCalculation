@@ -21,37 +21,36 @@ import com.example.model.Formula;
 import com.example.service.DateCalculationService;
 
 @Controller
-@RequestMapping("/date-calculation")
+@RequestMapping("/calculation")
 public class DateCalculationController {
 
 	@Autowired
 	private DateCalculationService dateCalculationService;
 
-	// トップ画面表示
-	@GetMapping("/index.html")
-	public String getTop(@ModelAttribute ReferenceDateForm form) {
-		return "calculation/index";
+	// 検索画面表示
+	@GetMapping("/search")
+	public String loadSearch(@ModelAttribute ReferenceDateForm form) {
+		return "calculation/search";
 	}
 
-	// ここから検索処理
-	// 入力値を受け取りそのまま検索結果画面へリダイレクト
-	@PostMapping("/index.html")
-	public String postResult(@ModelAttribute @Validated ReferenceDateForm form,
+	// 基準日の入力チェック⇒計算処理へリダイレクト
+	@PostMapping("/search")
+	public String checkReferenceDate(@ModelAttribute @Validated ReferenceDateForm form,
 			BindingResult bindingResult) {
 
-		// 入力チェック結果
+		// 入力チェック
 		if (bindingResult.hasErrors()) {
-			return getTop(form);
+			return loadSearch(form);
 		}
 
-		return "redirect:/date-calculation/result/" + form.getReferenceDate();
+		return "redirect:/calculation/result/" + form.getReferenceDate();
 	}
 
-	// 入力値をもとに検索＆計算結果画面表示
+	// 計算＆計算結果画面表示
 	@GetMapping("/result/{reference}")
-	public String getResult(@PathVariable String reference, Model model) throws ParseException {
+	public String executeCalc(@PathVariable String reference, Model model) throws ParseException {
 
-		// referenceをDate型に変換（無駄なコードがないか要確認）
+		// referenceをDate型に変換
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
 		Date referenceDate = sdf.parse(reference);
 

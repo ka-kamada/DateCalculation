@@ -31,7 +31,7 @@ public class SignupController {
 
 	/** ユーザー登録画面を表示 */
 	@GetMapping("/signup")
-	public String getSignup(@ModelAttribute SignupForm form) {
+	public String loadSignup(@ModelAttribute SignupForm form) {
 
 		// ユーザー登録画面に遷移
 		return "user/signup";
@@ -39,17 +39,17 @@ public class SignupController {
 
 	/** ユーザー登録処理 */
 	@PostMapping("/signup")
-	public String postSignup(@ModelAttribute @Validated(GroupOrder.class) SignupForm form,
+	public String signup(@ModelAttribute @Validated(GroupOrder.class) SignupForm form,
 			BindingResult bindingResult) {
 
 		// 入力チェック
 		if (bindingResult.hasErrors()) {
-			return getSignup(form);
+			return loadSignup(form);
 		}
 
 		MUser user = modelMapper.map(form, MUser.class);
 
-		userService.setUser(user);
+		userService.signup(user);
 
 		// ログイン画面にリダイレクト
 		return "redirect:/login";
