@@ -63,7 +63,7 @@ public class SignupController {
 		model.addAttribute("error", "");
 
 		// メッセージをModelに登録
-		model.addAttribute("message", "SignupControllerで例外が発生しました");
+		model.addAttribute("message", "システムエラーが発生しました");
 
 		// HTTPのエラーコード（500）をModelに登録
 		model.addAttribute("status", HttpStatus.INTERNAL_SERVER_ERROR);
@@ -79,7 +79,7 @@ public class SignupController {
 		model.addAttribute("error", "");
 
 		// メッセージをModelに登録
-		model.addAttribute("message", "SignupControllerで例外が発生しました");
+		model.addAttribute("message", "システムエラーが発生しました");
 
 		// HTTPのエラーコード（500）をModelに登録
 		model.addAttribute("status", HttpStatus.INTERNAL_SERVER_ERROR);

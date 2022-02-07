@@ -17,7 +17,7 @@ public class GlobalControllAdvice {
 		model.addAttribute("error", "");
 
 		// メッセージをModelに登録
-		model.addAttribute("message", "DataAccessExceptionが発生しました");
+		model.addAttribute("message", "システムエラーが発生しました");
 
 		// HTTPのエラーコード（500）をModelに登録
 		model.addAttribute("status", HttpStatus.INTERNAL_SERVER_ERROR);
@@ -33,7 +33,7 @@ public class GlobalControllAdvice {
 		model.addAttribute("error", "");
 
 		// メッセージをModelに登録
-		model.addAttribute("message", "Exceptionが発生しました");
+		model.addAttribute("message", "システムエラーが発生しました");
 
 		// HTTPのエラーコード（500）をModelに登録
 		model.addAttribute("status", HttpStatus.INTERNAL_SERVER_ERROR);

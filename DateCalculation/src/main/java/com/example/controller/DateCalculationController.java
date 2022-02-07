@@ -1,11 +1,11 @@
 package com.example.controller;
 
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -36,27 +36,32 @@ public class DateCalculationController {
 	// 基準日の入力チェック⇒計算処理へリダイレクト
 	@PostMapping("/search")
 	public String checkReferenceDate(@ModelAttribute @Validated ReferenceDateForm form,
-			BindingResult bindingResult) {
+			BindingResult bindingResult, Model model) {
 
 		// 入力チェック
 		if (bindingResult.hasErrors()) {
 			return loadSearch(form);
 		}
 
-		return "redirect:/calculation/result/" + form.getReferenceDate();
+		// formをString型に変換
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
+		String reference = sdf.format(form.getReferenceDate());
+
+		return "redirect:/calculation/result/" + reference;
 	}
 
 	// 計算＆計算結果画面表示
 	@GetMapping("/result/{reference}")
-	public String executeCalc(@PathVariable String reference, Model model) throws ParseException {
+	public String executeCalc(@DateTimeFormat(pattern = "yyyyMMdd") @PathVariable Date reference,
+			Model model) {
 
-		// referenceをDate型に変換
-		SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
-		Date referenceDate = sdf.parse(reference);
+		// 画面表示の為referenceをString型に変換しモデルに登録
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy年MM月dd日");
+		String referenceDate = sdf.format(reference);
+		model.addAttribute("referenceDate", referenceDate);
 
 		// 基準日をもとに計算処理 ⇒ 結果をモデルに登録
-		List<Formula> formulaList = dateCalculationService.getFormulas(referenceDate);
-		model.addAttribute("reerence", reference);
+		List<Formula> formulaList = dateCalculationService.getFormulas(reference);
 		model.addAttribute("formulaList", formulaList);
 
 		return "calculation/result";

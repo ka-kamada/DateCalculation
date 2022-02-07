@@ -17,7 +17,7 @@
 				class="form-top" th:object="${referenceDateForm}">
 				<p><font size="5">計算基準日を入力してください</font></p>
 				<div class="form-top">
-					<input type="text" class="form-control" placeholder="YYYYMMDD"
+					<input type="text" class="form-control" placeholder="YYYY/MM/DD"
 						th:field="*{referenceDate}" th:errorclass="is-invalid" />
 					<div class="invalid-feedback" th:errors="*{referenceDate}"></div>
 				</div>
