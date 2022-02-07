@@ -36,7 +36,7 @@ public class DateCalculationController {
 	// 基準日の入力チェック⇒計算処理へリダイレクト
 	@PostMapping("/search")
 	public String checkReferenceDate(@ModelAttribute @Validated ReferenceDateForm form,
-			BindingResult bindingResult, Model model) {
+			BindingResult bindingResult) {
 
 		// 入力チェック
 		if (bindingResult.hasErrors()) {
