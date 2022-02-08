@@ -1,6 +1,6 @@
 package com.example.form;
 
-import java.util.Date;
+import java.time.LocalDate;
 
 import javax.validation.constraints.NotNull;
 
@@ -13,6 +13,6 @@ public class ReferenceDateForm {
 
 	@NotNull
 	@DateTimeFormat(pattern = "yyyy/MM/dd")
-	private Date referenceDate;
+	private LocalDate referenceDate;
 
 }

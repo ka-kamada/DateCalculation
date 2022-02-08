@@ -1,8 +1,7 @@
 package com.example.service.impl;
 
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.Date;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,31 +19,25 @@ public class DateCalculationServiceImpl implements DateCalculationService {
 
 	/** 計算式取得＆計算 */
 	@Override
-	public List<Formula> getFormulas(Date referenceDate) {
+	public List<Formula> getFormulas(LocalDate referenceDate) {
 
-		// Calendarクラスのインスタンスを生成
-		Calendar referenceCalendar = Calendar.getInstance();
 		// 計算式を検索
 		List<Formula> list = mapper.getFormulas();
 
 		for (int i = 0; i < list.size(); i++) {
-			// referenceCalendarに基準日を設定
-			referenceCalendar.setTime(referenceDate);
+
 			// 式をcalcに代入
 			Formula calc = list.get(i);
 
-
 			// 年を計算する
-			referenceCalendar.add(Calendar.YEAR, calc.getYear());
+			LocalDate resultYear = referenceDate.plusYears(calc.getYear());
 			// 月を計算する
-			referenceCalendar.add(Calendar.MONTH, calc.getMonth());
+			LocalDate resultYearMonth = resultYear.plusMonths(calc.getMonth());
 			// 年を計算する
-			referenceCalendar.add(Calendar.DATE, calc.getDay());
+			LocalDate resultYearMonthDay = resultYearMonth.plusDays(calc.getDay());
 
-			// 計算結果のフォーマットを設定
-			SimpleDateFormat sdf = new SimpleDateFormat("yyyy年MM月dd日");
 			// 計算結果をString型に変換
-			String result = sdf.format(referenceCalendar.getTime());
+			String result = resultYearMonthDay.format(DateTimeFormatter.ofPattern("yyyy年MM月dd日"));
 			// 計算結果をListに追加
 			calc.setDateCaluculationResult(result);
 		}

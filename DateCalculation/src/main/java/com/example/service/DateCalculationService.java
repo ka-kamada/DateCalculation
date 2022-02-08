@@ -1,6 +1,6 @@
 package com.example.service;
 
-import java.util.Date;
+import java.time.LocalDate;
 import java.util.List;
 
 import com.example.model.Formula;
@@ -8,7 +8,7 @@ import com.example.model.Formula;
 public interface DateCalculationService {
 
 	/** 計算式取得 */
-	public List<Formula> getFormulas(Date referenceDate);
+	public List<Formula> getFormulas(LocalDate referenceDate);
 
 	/** 計算式登録 */
 	public void registerFormula(Formula formula);

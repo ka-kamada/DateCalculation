@@ -1,20 +1,19 @@
 package com.example.controller;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.example.form.ReferenceDateForm;
 import com.example.model.Formula;
@@ -35,29 +34,25 @@ public class DateCalculationController {
 
 	// 基準日の入力チェック⇒計算処理へリダイレクト
 	@PostMapping("/search")
-	public String checkReferenceDate(@ModelAttribute @Validated ReferenceDateForm form,
-			BindingResult bindingResult) {
+	public String checkReferenceDate(@ModelAttribute @Validated ReferenceDateForm form, BindingResult bindingResult,
+			RedirectAttributes redirectAttributes) {
 
 		// 入力チェック
 		if (bindingResult.hasErrors()) {
 			return loadSearch(form);
 		}
 
-		// formをString型に変換
-		SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
-		String reference = sdf.format(form.getReferenceDate());
+		redirectAttributes.addFlashAttribute("reference", form.getReferenceDate());
 
-		return "redirect:/calculation/result/" + reference;
+		return "redirect:/calculation/result";
 	}
 
 	// 計算＆計算結果画面表示
-	@GetMapping("/result/{reference}")
-	public String executeCalc(@DateTimeFormat(pattern = "yyyyMMdd") @PathVariable Date reference,
-			Model model) {
+	@GetMapping("/result")
+	public String executeCalc(@ModelAttribute("reference") LocalDate reference, Model model) {
 
 		// 画面表示の為referenceをString型に変換しモデルに登録
-		SimpleDateFormat sdf = new SimpleDateFormat("yyyy年MM月dd日");
-		String referenceDate = sdf.format(reference);
+		String referenceDate = reference.format(DateTimeFormatter.ofPattern("yyyy年MM月dd日"));
 		model.addAttribute("referenceDate", referenceDate);
 
 		// 基準日をもとに計算処理 ⇒ 結果をモデルに登録
