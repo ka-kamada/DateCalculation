@@ -1,6 +1,7 @@
 package com.example.service.impl;
 
 import java.time.LocalDate;
+import java.time.Period;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 
@@ -24,22 +25,13 @@ public class DateCalculationServiceImpl implements DateCalculationService {
 		// 計算式を検索
 		List<Formula> list = mapper.getFormulas();
 
-		for (int i = 0; i < list.size(); i++) {
+		// 繰り返し処理内で使うフォーマットを設定
+		DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy年MM月dd日");
 
-			// 式をcalcに代入
-			Formula calc = list.get(i);
-
-			// 年を計算する
-			LocalDate resultYear = referenceDate.plusYears(calc.getYear());
-			// 月を計算する
-			LocalDate resultYearMonth = resultYear.plusMonths(calc.getMonth());
-			// 年を計算する
-			LocalDate resultYearMonthDay = resultYearMonth.plusDays(calc.getDay());
-
-			// 計算結果をString型に変換
-			String result = resultYearMonthDay.format(DateTimeFormatter.ofPattern("yyyy年MM月dd日"));
-			// 計算結果をListに追加
-			calc.setDateCaluculationResult(result);
+		// リスト内の計算式を実行し結果をFormulaに格納
+		for (Formula formula : list) {
+			String result = referenceDate.plus(Period.of(formula.getYear(), formula.getMonth(), formula.getDay())).format(dtf);
+			formula.setDateCaluculationResult(result);
 		}
 
 		return list;
