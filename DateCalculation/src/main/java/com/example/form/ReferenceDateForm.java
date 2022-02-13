@@ -1,13 +1,18 @@
 package com.example.form;
 
-import javax.validation.constraints.NotBlank;
+import java.time.LocalDate;
+
+import javax.validation.constraints.NotNull;
+
+import org.springframework.format.annotation.DateTimeFormat;
 
 import lombok.Data;
 
 @Data
 public class ReferenceDateForm {
 
-	@NotBlank
-	private String referenceDate;
+	@NotNull
+	@DateTimeFormat(pattern = "yyyy/MM/dd")
+	private LocalDate referenceDate;
 
 }

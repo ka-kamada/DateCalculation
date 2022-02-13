@@ -1,8 +1,7 @@
 package com.example.controller;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,52 +11,52 @@ import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.example.form.ReferenceDateForm;
 import com.example.model.Formula;
 import com.example.service.DateCalculationService;
 
 @Controller
-@RequestMapping("/date-calculation")
+@RequestMapping("/calculation")
 public class DateCalculationController {
 
 	@Autowired
 	private DateCalculationService dateCalculationService;
 
-	// トップ画面表示
-	@GetMapping("/index.html")
-	public String getTop(@ModelAttribute ReferenceDateForm form) {
-		return "calculation/index";
+	// 検索画面表示
+	@GetMapping("/search")
+	public String loadSearch(@ModelAttribute ReferenceDateForm form) {
+		return "calculation/search";
 	}
 
-	// ここから検索処理
-	// 入力値を受け取りそのまま検索結果画面へリダイレクト
-	@PostMapping("/index.html")
-	public String postResult(@ModelAttribute @Validated ReferenceDateForm form,
-			BindingResult bindingResult) {
+	// 基準日の入力チェック⇒計算処理へリダイレクト
+	@PostMapping("/search")
+	public String checkReferenceDate(@ModelAttribute @Validated ReferenceDateForm form, BindingResult bindingResult,
+			RedirectAttributes redirectAttributes) {
 
-		// 入力チェック結果
+		// 入力チェック
 		if (bindingResult.hasErrors()) {
-			return getTop(form);
+			return loadSearch(form);
 		}
 
-		return "redirect:/date-calculation/result/" + form.getReferenceDate();
+		redirectAttributes.addFlashAttribute("reference", form.getReferenceDate());
+
+		return "redirect:/calculation/result";
 	}
 
-	// 入力値をもとに検索＆計算結果画面表示
-	@GetMapping("/result/{reference}")
-	public String getResult(@PathVariable String reference, Model model) throws ParseException {
+	// 計算＆計算結果画面表示
+	@GetMapping("/result")
+	public String executeCalc(@ModelAttribute("reference") LocalDate reference, Model model) {
 
-		// referenceをDate型に変換（無駄なコードがないか要確認）
-		SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
-		Date referenceDate = sdf.parse(reference);
+		// 画面表示の為referenceをString型に変換しモデルに登録
+		String referenceDate = reference.format(DateTimeFormatter.ofPattern("yyyy年MM月dd日"));
+		model.addAttribute("referenceDate", referenceDate);
 
 		// 基準日をもとに計算処理 ⇒ 結果をモデルに登録
-		List<Formula> formulaList = dateCalculationService.getFormulas(referenceDate);
-		model.addAttribute("reerence", reference);
+		List<Formula> formulaList = dateCalculationService.getFormulas(reference);
 		model.addAttribute("formulaList", formulaList);
 
 		return "calculation/result";

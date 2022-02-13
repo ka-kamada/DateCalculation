@@ -1,75 +1,84 @@
 package com.example.controller;
 
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.example.form.GroupOrder;
+import com.example.form.RegisterFormulaForm;
 import com.example.model.Formula;
 import com.example.service.DateCalculationService;
 
 @Controller
-@RequestMapping("/date-calculation/formula")
+@RequestMapping("/calculation/formula")
 public class FormulaDetailController {
 
 	@Autowired
 	private DateCalculationService dateCalculationService;
 
-	// idをリダイレクト
-	@PostMapping(value = "/detail", params = "update")
-	String postEdit(@RequestParam Integer id) {
+	@Autowired
+	private ModelMapper modelMapper;
 
-		return "redirect:/date-calculation/formula/edit/" + id;
+	// 計算式IDをリダイレクト
+	@PostMapping(value = "/detail", params = "update")
+	String redirecUpdateId(@RequestParam Integer formulaId) {
+
+		return "redirect:update/" + formulaId;
 	}
 
 	// 更新する計算式を検索⇒更新画面表示
-	@GetMapping("/edit/{id}")
-	String getEdit(@PathVariable Integer id, Model model) {
+	@GetMapping("/update/{formulaId}")
+	String loadUpdateFormula(@PathVariable Integer formulaId, Model model) {
 
 		// 更新する計算式を検索 ⇒ 結果をモデルに登録
-		Formula formula = dateCalculationService.getFormulaOne(id);
-		model.addAttribute("formula", formula);
+		Formula formula = dateCalculationService.getFormulaOne(formulaId);
 
-		return "formula/edit";
+		// 型変換（Forula ⇒ ResisterForulaForm）
+		RegisterFormulaForm form = modelMapper.map(formula, RegisterFormulaForm.class);
+
+		// 結果をモデルに登録
+		model.addAttribute("form", form);
+
+		return "formula/update";
 	}
 
-	// 更新処理 ⇒ 完了画面へのリダイレクト
-	@PostMapping("/updateOne")
-	String postUpdate(Formula form) {
+	// 更新処理 ⇒ 検索画面表示へリダイレクト
+	@PostMapping("/update")
+	String executeUpdateFormula(@ModelAttribute @Validated(GroupOrder.class) RegisterFormulaForm form,
+			BindingResult bindingResult, Model model) {
+
+		// 入力チェック
+		if (bindingResult.hasErrors()) {
+			return "redirect:update/" + form.getFormulaId();
+		}
+
+		// 型変換（ResisterForulaForm ⇒ Formula）
+		Formula formula = modelMapper.map(form, Formula.class);
 
 		// 更新処理
-		dateCalculationService.updateFormulaOne(form.getFormulaId(), form.getFormulaName(), form.getYear(),
-				form.getMonth(), form.getDay());
+		dateCalculationService.updateFormula(formula.getFormulaId(), formula.getFormulaName(), formula.getYear(),
+				formula.getMonth(), formula.getDay());
 
-		return "redirect:/date-calculation/formula/edit/complete/";
+		return "redirect:/calculation/search/";
 	}
 
-	// 更新完了画面表示
-	@GetMapping("/edit/complete")
-	public String getUpdateComplete() {
-
-		return "formula/editComplete";
-	}
-
-	// 削除処理 ⇒ 完了画面へのリダイレクト
+	// 削除処理 ⇒ 検索画面表示へリダイレクト
 	@PostMapping(value = "/detail", params = "delete")
-	public String postDelete(@RequestParam Integer id) {
+	public String executeDeleteFormula(@RequestParam Integer formulaId) {
 
-		// 計算式削除
-		dateCalculationService.deleteFormula(id);
+		// 削除処理
+		dateCalculationService.deleteFormula(formulaId);
 
-		return "redirect:/date-calculation/formula/delete/complete/";
-	}
-
-	// 削除完了画面表示
-	@GetMapping("/delete/complete/")
-	public String getDeleteComplete() {
-
-		return "formula/deleteComplete";
+		return "redirect:/calculation/search/";
 	}
 
 }

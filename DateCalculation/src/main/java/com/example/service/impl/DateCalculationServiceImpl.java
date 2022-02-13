@@ -1,8 +1,8 @@
 package com.example.service.impl;
 
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.Date;
+import java.time.LocalDate;
+import java.time.Period;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,33 +20,18 @@ public class DateCalculationServiceImpl implements DateCalculationService {
 
 	/** 計算式取得＆計算 */
 	@Override
-	public List<Formula> getFormulas(Date referenceDate) {
+	public List<Formula> getFormulas(LocalDate referenceDate) {
 
-		// Calendarクラスのインスタンスを生成
-		Calendar referenceCalendar = Calendar.getInstance();
 		// 計算式を検索
 		List<Formula> list = mapper.getFormulas();
 
-		for (int i = 0; i < list.size(); i++) {
-			// referenceCalendarに基準日を設定
-			referenceCalendar.setTime(referenceDate);
-			// 式をcalcに代入
-			Formula calc = list.get(i);
+		// 繰り返し処理内で使うフォーマットを設定
+		DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy年MM月dd日");
 
-
-			// 年を計算する
-			referenceCalendar.add(Calendar.YEAR, calc.getYear());
-			// 月を計算する
-			referenceCalendar.add(Calendar.MONTH, calc.getMonth());
-			// 年を計算する
-			referenceCalendar.add(Calendar.DATE, calc.getDay());
-
-			// 計算結果のフォーマットを設定
-			SimpleDateFormat sdf = new SimpleDateFormat("yyyy年MM月dd日");
-			// 計算結果をString型に変換
-			String result = sdf.format(referenceCalendar.getTime());
-			// 計算結果をListに追加
-			calc.setDateCaluculationResult(result);
+		// リスト内の計算式を実行し結果をFormulaに格納
+		for (Formula formula : list) {
+			String result = referenceDate.plus(Period.of(formula.getYear(), formula.getMonth(), formula.getDay())).format(dtf);
+			formula.setDateCaluculationResult(result);
 		}
 
 		return list;
@@ -54,8 +39,8 @@ public class DateCalculationServiceImpl implements DateCalculationService {
 
 	/** 計算式登録 */
 	@Override
-	public void setFormula(Formula formula) {
-		mapper.setFormula(formula);
+	public void registerFormula(Formula formula) {
+		mapper.registerFormula(formula);
 	}
 
 	/** 計算式削除 */
@@ -76,9 +61,9 @@ public class DateCalculationServiceImpl implements DateCalculationService {
 
 	/** 更新処理 */
 	@Override
-	public void updateFormulaOne(int formulaId, String formulaName, int year, int month, int day) {
+	public void updateFormula(int formulaId, String formulaName, int year, int month, int day) {
 
-		mapper.updateFormulaOne(formulaId, formulaName, year, month, day);
+		mapper.updateFormula(formulaId, formulaName, year, month, day);
 
 	}
 

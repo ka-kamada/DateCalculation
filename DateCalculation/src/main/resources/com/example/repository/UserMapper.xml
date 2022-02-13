@@ -5,19 +5,29 @@
 <mapper namespace="com.example.repository.UserMapper">
 
 <!-- ユーザー登録 -->
-	<insert id="setUser">
-    insert into user(
+	<insert id="signup">
+    insert into m_user(
         user_id
       , password
       , user_name
+      , role
     )
     values (
         #{userId}
       , #{password}
       , #{userName}
+      , #{role}
     )
   </insert>
-
-
+  
+  <!-- ログインユーザー情報取得 -->
+  <select id="getLoginUser" resultType="com.example.model.MUser">
+    select 
+      * 
+    from 
+      m_user 
+    where 
+      user_id = #{userId}
+  </select>
 
 </mapper>

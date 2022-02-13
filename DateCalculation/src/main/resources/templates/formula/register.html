@@ -1,46 +1,58 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
-<head>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{layout/layout}">
 <meta charset="UTF-8"></meta>
 <meta name="viewport"
 	content="width=device-width,initial-scale=1,shrink-to-fit=no">
-<!-- CSS読込 -->
-<link rel="stylesheet"
-	th:href="@{/webjars/bootstrap/css/bootstrap.min.css}">
-<link rel="stylesheet" th:href="@{/css/register.css}">
-<!-- JS読込 -->
-<script th:src="@{webjars/jquery/jquery.min.js}" defer></script>
-<script th:src="@{webjars/bootstrap/js/bootstrap.min.js}" defer></script>
+<head>
 <title>計算式登録</title>
+<!-- CSS読込 -->
+<link rel="stylesheet" th:href="@{/css/register.css}">
 </head>
-<body class="bg-light">
-	<form id="register-form" method="post"
-		action="/date-calculation/formula/register" class="form-register" th:object="${registerFormulaForm}">
-		<h1 class="text-center">計算式登録</h1>
-		<div class="form-group">
-			<label for="formulaName">計算式名</label> <input type="text"
-				class="form-control" th:field="*{formulaName}" th:errorclass="is-invalid"/>
-			<div class="invalid-feedback" th:errors="*{formulaName}"></div>
+<body>
+	<div layout:fragment="content">
+		<div class="header border-bottom">
+			<h1 class="h2">計算式登録</h1>
 		</div>
-		<div class="form-group">
-			<label for="year">加減値（年）</label> <input type="text"
-				class="form-control" th:field="*{year}" th:errorclass="is-invalid"/>
-			<div class="invalid-feedback" th:errors="*{year}"></div>
-		</div>
-		<div class="form-group">
-			<label for="month">加減値（月）</label> <input type="text"
-				class="form-control" th:field="*{month}" th:errorclass="is-invalid"/>
-			<div class="invalid-feedback" th:errors="*{month}"></div>
-		</div>
-		<div class="form-group">
-			<label for="day">加減値（日）</label> <input type="text"
-				class="form-control" th:field="*{day}" th:errorclass="is-invalid"/>
-			<div class="invalid-feedback" th:errors="*{day}"></div>
-		</div>
-		
-		<input type="submit" value="登録" class="btn btn-primary w-100 mt-3" />
-		<a th:href="@{/date-calculation/index.html}">トップに戻る</a>
-	</form>
-		
+		<form id="register-form" method="post"
+			action="/calculation/formula/register" class="form-register"
+			th:object="${registerFormulaForm}">
+			<!-- 計算式詳細情報 -->
+			<table class="table table-striped table-bordered table-hover">
+				<tbody>
+					<tr>
+						<th>計算式名</th>
+						<td><input type="text" class="form-control"
+							th:field="*{formulaName}" th:errorclass="is-invalid" />
+							<div class="invalid-feedback" th:errors="*{formulaName}"></div></td>
+					</tr>
+					<tr>
+						<th>加減値（年）</th>
+						<td><input type="text" class="form-control"
+							th:field="*{year}" th:errorclass="is-invalid" />
+							<div class="invalid-feedback" th:errors="*{year}"></div></td>
+					</tr>
+					<tr>
+						<th>加減値（月）</th>
+						<td><input type="text" class="form-control"
+							th:field="*{month}" th:errorclass="is-invalid" />
+							<div class="invalid-feedback" th:errors="*{month}"></div></td>
+					</tr>
+					<tr>
+						<th>加減値（日）</th>
+						<td><input type="text" class="form-control" th:field="*{day}"
+							th:errorclass="is-invalid" />
+							<div class="invalid-feedback" th:errors="*{day}"></div></td>
+					</tr>
+				</tbody>
+			</table>
+			<!-- ボタンエリア -->
+			<div class="text-center">
+				<!-- 登録ボタン -->
+				<button class="btn btn-primary" type="submit">登録実行</button>
+			</div>
+		</form>
+	</div>
 </body>
 </html>
